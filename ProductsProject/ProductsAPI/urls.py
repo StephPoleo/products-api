@@ -1,6 +1,11 @@
+from xml.etree.ElementInclude import include
 from django.urls import path
 from . import views
+from rest_framework import routers
+
+router= routers.DefaultRouter()
+router.register('products', views.ProductView)
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', include(router.urls)),
 ]

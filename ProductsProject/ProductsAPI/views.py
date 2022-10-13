@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rest_framework import viewsets
+from .models import Product
+from .serializers import ProductSerializer
 
-def index(request):
-    return HttpResponse("Hello, world. You're at the products index.")
+class ProductView(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class: ProductSerializer
