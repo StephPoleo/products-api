@@ -4,7 +4,7 @@ from . import views
 from rest_framework import routers
 
 router= routers.SimpleRouter()
-router.register(r'products', views.ProductView)
+router.register(r'products', views.ProductView, basename='product')
 router.register(r'users', views.UserView)
 
 urlpatterns = [

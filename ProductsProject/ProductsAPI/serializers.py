@@ -22,4 +22,20 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'url')
+        fields = ('username', 'email', 'password', 'url')
+        extra_kwargs = {
+            'password': {'write_only': True},
+        }
+
+    def create(self, validated_data):
+        user = super(UserSerializer, self).create(validated_data)
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+    def update(self, instance, validated_data):
+        instance = super(UserSerializer, self).update(instance, validated_data)
+        instance.set_password(validated_data['password'])
+        instance.is_active = True
+        instance.save()
+        return instance
