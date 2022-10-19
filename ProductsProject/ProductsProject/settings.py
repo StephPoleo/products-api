@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ProductsAPI',
     'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
 AUTH_USER_MODEL = 'ProductsAPI.User'
