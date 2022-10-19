@@ -79,7 +79,6 @@ class User(AbstractBaseUser):
 def price_updated(sender, instance, **kwargs):
     
     queryset = User.objects.filter(is_active=True).values_list('email', flat=True)
-    #serializer = UserSerializer(data=queryset)
 
     subject = 'subject'
     body = 'The product ' + instance.name + ' changed!'
