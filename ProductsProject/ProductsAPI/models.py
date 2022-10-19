@@ -13,10 +13,11 @@ class Product(models.Model):
     price = models.FloatField()
     brand= models.CharField(max_length=50)
 
-    # Funcion que nos permite ver el nombre del producto directamente en Django Admin
+    # Function that shows the model name on Django Admin
     def __str__(self):
         return self.name
 
+# Function that manages the creation for a super user or a regular user
 class Manager(BaseUserManager):
     def create_user(self, email, username, password= None):
         if not email:
@@ -49,6 +50,7 @@ class Manager(BaseUserManager):
 
         return user
 
+# User custom model
 class User(AbstractBaseUser):
 
     username= models.CharField(max_length=50)
@@ -63,7 +65,6 @@ class User(AbstractBaseUser):
 
     objects = Manager()
 
-    # Funcion que nos permite ver el nombre del producto directamente en Django Admin
     def __str__(self):
         return self.username
 
@@ -73,6 +74,8 @@ class User(AbstractBaseUser):
     def has_module_perms(self,app_label):
         return True
 
+# Function that detects when a product has been modified and sends a email 
+# to all the registered users
 def price_updated(sender, instance, **kwargs):
     
     queryset = User.objects.filter(is_active=True).values_list('email', flat=True)
