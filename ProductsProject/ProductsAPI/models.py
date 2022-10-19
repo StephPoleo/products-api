@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db.models.signals import post_save
-from django.core.mail import send_mail
+from django.core.mail import send_mass_mail
 import uuid
 
 class Product(models.Model):
@@ -77,16 +77,14 @@ def price_updated(sender, instance, **kwargs):
     
     queryset = User.objects.filter(is_active=True).values_list('email', flat=True)
     #serializer = UserSerializer(data=queryset)
-    email_list= list(queryset)
-    message = 'The product ' + instance.name + ' changed!'
 
-    send_mail(
-            'Product details changed',# subject
-            message, # message
-            ['stephaniepoleo@hotmail.com'],# from email
-            email_list# To email
-        )
+    subject = 'subject'
+    body = 'The product ' + instance.name + ' changed!'
+    from_email = 'from_email@test.com'
+    recipient_list = list(queryset)
+            
+    messages = [(subject, body, from_email, [r]) for r in recipient_list]
 
-    print(email_list)
+    send_mass_mail(messages) 
 
 post_save.connect(price_updated, sender = Product)
