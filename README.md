@@ -1,10 +1,20 @@
-# Project Title
+# Zebrands API REST Challenge
 
-Simple overview of use/purpose.
+API REST for products and users.
 
 ## Description
 
-An in-depth paragraph about your project and overview of use.
+Developing a basic catalog system to manage products.
+
+- A product should have basic info such as sku, name, price and brand. Other fields for product are availability and average rating.
+
+- There will be two type of users:
+  (i) admins to create / update / delete products and to create / update / delete other admins.
+  (ii) anonymous users who can only retrieve products information but can't make changes.
+
+- Whenever an admin user makes a change in a product (for example, if a price is adjusted), the system notifies all other admins about the change via email.
+
+- Tracking system of the number of times every single product is queried by an anonymous/admin user, and building analytics for the gathered information.
 
 ## Getting Started
 
