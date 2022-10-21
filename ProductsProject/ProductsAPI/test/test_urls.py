@@ -15,7 +15,7 @@ User = get_user_model()
 
 class RegistrationTestCase(APITestCase):
 
-    product_list_url = reverse('product-list')
+    product_list_url = reverse('product')
     user_list_url = reverse('user-list')
 
     # Testing login
@@ -151,7 +151,8 @@ class RegistrationTestCase(APITestCase):
         client = Client()
         logged_in = client.login(email='test1@test.com', password='12345')
 
-        Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        Product.objects.create(name = "product name", price = 1000, brand = "product brand", 
+                               availability = "IN_STOCK", avg_rating = "5.0")
 
         if logged_in:
             response = client.get(self.product_list_url)
@@ -159,7 +160,8 @@ class RegistrationTestCase(APITestCase):
 
     # Testing GET ALL products when user is anonymous
     def test_product_list_unauthenticated(self):
-        Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        Product.objects.create(name = "product name", price = 1000, brand = "product brand", 
+                               availability = "IN_STOCK", avg_rating = "5.0")
 
         client = self.client
         user = auth.get_user(client)
@@ -175,20 +177,22 @@ class RegistrationTestCase(APITestCase):
         client = Client()
         logged_in = client.login(email='test1@test.com', password='12345')
 
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand", 
+                               availability = "IN_STOCK", avg_rating = "5.0")
 
         if logged_in:
-            response = client.get(reverse("product-detail", kwargs={"pk":product.sku}))
+            response = client.get(reverse("product_detail", kwargs={"sku":product.sku}))
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # Testing GET by sku products when user is anonymous
     def test_product_detail_unauthenticated(self):
         client = self.client
         user = auth.get_user(client)
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand", 
+                               availability = "IN_STOCK", avg_rating = "5.0")
 
         if user.is_anonymous:
-            response = client.get(reverse("product-detail", kwargs={"pk":product.sku}))
+            response = client.get(reverse("product_detail", kwargs={"sku":product.sku}))
             self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # Testing POST product when authenticathed
@@ -199,11 +203,11 @@ class RegistrationTestCase(APITestCase):
         client = Client()
         logged_in = client.login(email='test1@test.com', password='12345')
 
-        data = {"name": "product name", "price":100, "brand":"product brand"}
+        data = {"name": "product name", "price":100, "brand":"product brand", "availability": "IN_STOCK", "avg_rating": "5.0"}
 
         if logged_in:
             response =  client.post(self.product_list_url, data=data)
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     # Testing POST product when user is anonymous
     def test_post_product_detail_unauthenticated(self):
@@ -223,10 +227,11 @@ class RegistrationTestCase(APITestCase):
         client = Client()
         logged_in = client.login(email='test1@test.com', password='12345')
 
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand",
+                                        availability = "IN_STOCK", avg_rating = "5.0")
 
         if logged_in:
-            url = reverse("product-detail", kwargs={"pk":product.sku})
+            url = reverse("product_detail", kwargs={"sku":product.sku})
             data = {"name": "product", "price":2000, "brand":"product brand"}
             response = client.put(url, data=data, content_type='application/json')
             product.refresh_from_db()
@@ -253,10 +258,11 @@ class RegistrationTestCase(APITestCase):
     def test_modify_product_detail_unauthenticated(self):
         client = self.client
         user = auth.get_user(client)
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand",
+                                        availability = "IN_STOCK", avg_rating = "5.0")
 
         if user.is_anonymous:
-            url = reverse("product-detail", kwargs={"pk":product.sku})
+            url = reverse("product_detail", kwargs={"sku":product.sku})
             data = {"name": "product", "price":2000, "brand":"product brand"}
             response = client.put(url, data=data, content_type='application/json')
             product.refresh_from_db()
@@ -270,21 +276,23 @@ class RegistrationTestCase(APITestCase):
         client = Client()
         logged_in = client.login(email='test1@test.com', password='12345')
 
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand",
+                                        availability = "IN_STOCK", avg_rating = "5.0")
 
         if logged_in:
-            url = reverse("product-detail", kwargs={"pk":product.sku})
+            url = reverse("product_detail", kwargs={"sku":product.sku})
             response = client.delete(url)
-            self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+            self.assertEqual(response.status_code, status.HTTP_302_FOUND)
 
     # Testing DELETE by sku products when user is anonymous
     def test_delete_product_detail_unauthenticated(self):
         client = self.client
         user = auth.get_user(client)
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand",
+                                        availability = "IN_STOCK", avg_rating = "5.0")
 
         if user.is_anonymous:
-            url = reverse("product-detail", kwargs={"pk":product.sku})
+            url = reverse("product_detail", kwargs={"sku":product.sku})
             response = client.delete(url)
             self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

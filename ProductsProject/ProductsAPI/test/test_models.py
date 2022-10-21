@@ -32,5 +32,5 @@ class TestProductModel(APITestCase):
     
     # Testing product creation
     def test_create_product(self):
-        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand")
+        product = Product.objects.create(name = "product name", price = 1000, brand = "product brand", availability = "IN_STOCK", avg_rating = "5.0")
         self.assertIsInstance(product, Product)
