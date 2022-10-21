@@ -9,9 +9,11 @@ class Product(models.Model):
     #SKU stands for ‘Stock Keeping Unit.’ It is a unique alphanumeric code that identifies 
     # a product to help retailers keep track of their inventory.
     sku = models.CharField(max_length=36, default=uuid.uuid4, primary_key=True)
-    name= models.CharField(max_length=50)
+    name= models.CharField(max_length=200)
     price = models.FloatField()
-    brand= models.CharField(max_length=50)
+    brand= models.CharField(max_length=200)
+    availability = models.CharField(max_length=20)
+    avg_rating = models.FloatField()
 
     # Function that shows the model name on Django Admin
     def __str__(self):
@@ -76,7 +78,7 @@ class User(AbstractBaseUser):
 
 # Function that detects when a product has been modified and sends a email 
 # to all the registered users
-def price_updated(sender, instance, **kwargs):
+""" def price_updated(sender, instance, **kwargs):
     
     queryset = User.objects.filter(is_active=True).values_list('email', flat=True)
 
@@ -89,4 +91,4 @@ def price_updated(sender, instance, **kwargs):
 
     send_mass_mail(messages) 
 
-post_save.connect(price_updated, sender = Product)
+post_save.connect(price_updated, sender = Product) """

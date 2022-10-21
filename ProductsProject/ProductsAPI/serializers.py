@@ -4,15 +4,20 @@ from .models import Product, User
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
 
-    # Stablishing a url to take the user to the product detail page, so modifying the endpoit to see specific information will not be necessary
-    url = serializers.HyperlinkedIdentityField(
+    # Stablishing a url to take the user to the user detail page, so modifying the endpoit to see specific information will not be necessary
+    """ url = serializers.HyperlinkedIdentityField(
         view_name='product-detail',
-        lookup_field='pk',
-        )
+        lookup_field='sku',
+        ) """
 
     class Meta:
         model = Product
-        fields = ('name', 'price', 'brand', 'url')
+        #fields = '__all__'
+        #fields = ('name', 'price', 'brand', 'url', 'sku')
+        fields = ('name', 'price', 'brand','availability', 'avg_rating', 'sku')
+        extra_kwargs = {
+            'sku': {'read_only': True},
+        }
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
 

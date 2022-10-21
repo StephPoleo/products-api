@@ -4,10 +4,13 @@ from . import views
 from rest_framework import routers
 
 # Creating dynamic rounting
-router= routers.SimpleRouter()
-router.register(r'products', views.ProductView, basename='product')
+router= routers.DefaultRouter()
+#router.register(r'products', views.ProductView, basename='product')
 router.register(r'users', views.UserView, basename='user') 
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('products/', views.ProductView.as_view(), name='product'),
+    path('products/<uuid:sku>/', views.ProductDetailView.as_view(), name='product_detail'),
+    path('analytics/', views.AnalyticsView.as_view(), name='analytics')
 ]
