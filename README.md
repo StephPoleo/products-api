@@ -20,21 +20,51 @@ Developing a basic catalog system to manage products.
 
 ### Dependencies
 
-- Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-- ex. Windows 10
+- 'rest_framework',
+- 'rest_framework_swagger',
+- 'drf_yasg'
+- 'psycopg2'
 
 ### Installing
 
-- How/where to download your program
-- Any modifications needed to be made to files/folders
+- To download this project, first you have to clone it from the Github repository by searching the "Code" option or clicking here: https://github.com/StephPoleo/products-api.git
+
+- The project contains 3 folders, 'ProductsProject', 'ProductsAPI' and 'analytics'. For them there are not modifications needed. Unless you are using a database different from PostgresSQL and PgAdmin. In that case, please modify the 'settings.py' file, on the ProductsProject folder. Inside the 'DATABASE' configurations.
+
+- For a PostgreSQL configuration, please use the following credentials:
+
+        'NAME': 'rest-api',
+        'USER': 'postgres',
+        'PASSWORD': 'admin',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
 
 ### Executing program
 
-- How to run the program
-- Step-by-step bullets
+Please follow the next steps to execute the project:
+
+- After cloning the repository, open your terminal and go to the project path. Make sure to be on the 'ProductsProject' folder (the one that contains the manage.py file) and type the following comamand:
 
 ```
-code blocks for commands
+python manage.py makemigrations
+```
+
+- If there's any errors, please check your connection to the database. Otherwise, continue:
+
+```
+python manage.py migrate
+```
+
+- Once everything is set up with the database, the next step is to create a super user:
+
+```
+python manage.py createsuperuser
+```
+
+- The console will ask you to enter a user, email and password for this super user. Put anything, and then type:
+
+```
+python manage.py runserver
 ```
 
 ## Help
