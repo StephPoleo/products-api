@@ -3,9 +3,8 @@ from django.urls import path, include
 from . import views
 from rest_framework import routers
 
-# Creating dynamic rounting
+# Creating dynamic rounting for user Model
 router= routers.DefaultRouter()
-#router.register(r'products', views.ProductView, basename='product')
 router.register(r'users', views.UserView, basename='user') 
 
 urlpatterns = [
